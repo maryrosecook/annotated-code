@@ -1,7 +1,7 @@
 body {
   font-family:courier;
   font-size:13px;
-  width: 630px;
+  width: 616px;
   margin-left:auto;
   margin-right:auto;
   text-align: justify;
@@ -13,11 +13,6 @@ a {
 
 a:hover {
   border-bottom:none;
-}
-
-.footer a {
-  border-bottom:1px solid black;
-  text-decoration:none;
 }
 
 p a {
@@ -37,11 +32,29 @@ h1 {
   text-align:center;
   margin-top:5px;
   margin-bottom:2px;
-  padding-bottom:5px;
+  padding: 0;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight:normal;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+  margin-top:10px;
+  margin-bottom:2px;
+  padding: 0;
+}
+
+h2 a {
+  text-decoration:none;
+}
+
+h2 a:hover {
+  border-bottom: 1px solid black;
 }
 
 p {
-  line-height:15px;
   margin:0;
 }
 
@@ -49,32 +62,46 @@ p {
   margin-left:auto;
   margin-right:auto;
   text-align:center;
-  margin-top:-13px;
-  padding-bottom:5px;
-  border-bottom:1px solid black;
+  margin:0;
 }
 
 .footer {
   margin-left:auto;
   margin-right:auto;
-  margin-top:-16px;
   text-align:center;
-  padding-top:5px;
-  border-top:1px solid black;
+  padding-top: 5px;
+}
+
+.footer a {
+  border-bottom:1px solid black;
+  text-decoration:none;
+}
+
+.footer a:hover {
+  border-bottom: none;
 }
 
 .grid {
-  height:425px;
+  height: 365px;
   margin-left:auto;
   margin-right:auto;
 }
 
 .grid-element {
-  width:300px;
-  padding:15px 0;
+  height: 300px;
+  width: 300px;
+  margin: 16px 0;
   float:left;
 }
 
 .grid-element.left {
-  padding-right: 30px;
+  margin-right: 8px;
+}
+
+.grid-element.right {
+  margin-left: 8px;
+}
+
+canvas {
+  border: 1px black solid;
 }
