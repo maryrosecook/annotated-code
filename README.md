@@ -12,7 +12,7 @@ Demonstrates an animation loop, collision detection, keyboard input, drawing to 
 
 ![A screenshot of Space Invaders](/space-invaders/screenshot.png)
 
-To read the annotated source, open `/space-invaders/annotated-source/app.html` in your browser.
+To read the annotated source, open `/space-invaders/docs/app.html` in your browser.
 
 ## Circles bouncing off lines
 
@@ -20,4 +20,4 @@ The code demonstrates some simple trig that calculates the movement of circles a
 
 ![An animation of circles bouncing off lines](/circles-bouncing-off-lines/screenshot.gif)
 
-To read the annotated source, open `/circles-bouncing-off-lines/annotated-source/app.html` in your browser.
+To read the annotated source, open `/circles-bouncing-off-lines/docs/app.html` in your browser.
