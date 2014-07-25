@@ -1,7 +1,7 @@
 body {
   font-family:courier;
   font-size:13px;
-  width: 616px;
+  width: 680px;
   margin-left:auto;
   margin-right:auto;
   text-align: justify;
@@ -9,6 +9,7 @@ body {
 
 a {
   color: black;
+  text-decoration: none;
 }
 
 a:hover {
@@ -20,28 +21,25 @@ p a {
   text-decoration:none;
 }
 
-h1 a {
-  text-decoration:none;
-}
-
 h1 {
   font-size: 46px;
+  line-height:46px;
   font-weight:normal;
   margin-left:auto;
   margin-right:auto;
   text-align:center;
   margin-top:5px;
-  margin-bottom:2px;
+  margin-bottom:0px;
   padding: 0;
 }
 
 h2 {
   font-size: 16px;
   font-weight:normal;
+  text-align: center;
   margin-left:auto;
   margin-right:auto;
-  text-align:center;
-  margin-top:10px;
+  margin-top:8px;
   margin-bottom:2px;
   padding: 0;
 }
@@ -62,46 +60,53 @@ p {
   margin-left:auto;
   margin-right:auto;
   text-align:center;
+  padding:0;
   margin:0;
+}
+
+.header {
+  border-bottom: 1px solid black;
+  padding-bottom: 8px;
 }
 
 .footer {
   margin-left:auto;
   margin-right:auto;
   text-align:center;
-  padding-top: 5px;
-}
-
-.footer a {
-  border-bottom:1px solid black;
-  text-decoration:none;
+  padding-top: 8px;
+  border-top:1px solid black;
+  height: 20px;
 }
 
 .footer a:hover {
-  border-bottom: none;
+  border-bottom:1px solid black;
 }
 
 .grid {
-  height: 365px;
+  height: 380px;
   margin-left:auto;
   margin-right:auto;
 }
 
 .grid-element {
-  height: 300px;
+  height: 340px;
   width: 300px;
-  margin: 16px 0;
+  margin: 20px;
   float:left;
 }
 
-.grid-element.left {
-  margin-right: 8px;
+.grid-element.project {
+  margin-left: auto;
+  margin-right: auto;
+  float: center;
 }
 
-.grid-element.right {
-  margin-left: 8px;
-}
-
-canvas {
+a:hover .grid-element.main {
   border: 1px black solid;
+  margin: 19px; /* to compensote for push down of border */
+}
+
+
+.project-links {
+  text-align: center;
 }

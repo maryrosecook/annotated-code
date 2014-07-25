@@ -1,9 +1,43 @@
-<body>
-  <canvas id="screen" width="310" height="310"></canvas>
-  <script src="game.js"></script>
-</body>
+<!doctype html>
+<html>
+  <head>
+    <title>Space Invaders - Annotated code</title>
 
-<div><a href="/annotated-source/game.html">Annotated source code</a> |
-  <a href="https://github.com/maryrosecook/spaceinvaders">GitHub</a> |
-  <a href="http://maryrosecook.com">Mary Rose Cook</a>
-</div>
+    <script src="app.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <a href='/'>
+        <h1>Annotated code</h1>
+        <div class="strapline">short, heavily annotated JavaScript programs</div>
+      </a>
+    </div>
+
+    <div class="grid" style="height: 480px;">
+      <div class="grid-element project">
+        <canvas id="space-invaders" width="300" height="300"></canvas>
+
+        <h2>Space Invaders</h2>
+        <p class="project-links">
+          <a href="docs/app.html">annotated code</a>
+          <a href="app.js">raw code</a>
+        </p><br/>
+
+        <p>
+          Move with the arrow keys.  Shoot with the S key.  Refresh to play again.
+        </p><br/>
+
+        <p>
+          Demonstrates a game loop, sound, collision detection and
+          drawing to the canvas.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href='http://maryrosecook.com'>Mary Rose Cook</a>
+    </div>
+  </body>
+</html>
