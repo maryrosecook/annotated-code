@@ -1,0 +1,19 @@
+{
+  "name": "annotated-code",
+  "description": "Short, heavily annotated JavaScript programs.",
+  "author": "Mary Rose Cook <maryrosecook@maryrosecook.com> (http://maryrosecook.com/)",
+  "version": "0.1.0",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maryrosecook/annotated-code.git"
+  },
+
+  "scripts": {
+    "docs": "docco --output space-invaders/docs space-invaders/*.js; docco --output circles-bouncing-off-lines/docs circles-bouncing-off-lines/*.js;"
+  },
+
+  "devDependencies": {
+    "docco": "0.6.3"
+  }
+}
