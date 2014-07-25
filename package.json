@@ -10,7 +10,7 @@
   },
 
   "scripts": {
-    "docs": "docco --output space-invaders/docs space-invaders/*.js; docco --output circles-bouncing-off-lines/docs circles-bouncing-off-lines/*.js;"
+    "docs": "docco space-invaders/*.js --output space-invaders/docs; docco circles-bouncing-off-lines/*.js --output circles-bouncing-off-lines/docs"
   },
 
   "devDependencies": {
