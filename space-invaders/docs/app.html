@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>app.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>app.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>;(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="main-game-object">Main game object</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p><strong>new Game()</strong> Creates the game object with the game state and logic.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Game = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>In index.html, there is a canvas tag that we will draw the game in.
+Grab the canvas out of the DOM.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"space-invaders"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Get the drawing context.  This contains functions that let you draw to the canvas.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> screen = canvas.getContext(<span class="hljs-string">'2d'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Note down the dimensions of the canvas.  These are used to
+place game bodies.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> gameSize = { x: canvas.width, y: canvas.height };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Create the bodies array to hold the player, invaders and bullets.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.bodies = [];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Add the invaders to the bodies array.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.bodies = <span class="hljs-keyword">this</span>.bodies.concat(createInvaders(<span class="hljs-keyword">this</span>));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Add the player to the bodies array.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.bodies = <span class="hljs-keyword">this</span>.bodies.concat(<span class="hljs-keyword">new</span> Player(<span class="hljs-keyword">this</span>, gameSize));
+
+    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Load the player shoot sound.  This is kind of backwards.  We’re
+about to start the game, but we’re wrapping that important code
+in this incidental sound load code.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    loadSound(<span class="hljs-string">"space-invaders/shoot.mp3"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(shootSound)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Put sound passed by the sound load callback on game object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      self.shootSound = shootSound;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Main game tick function.  Loops forever and runs 60ish times a second.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> tick = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Update game state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        self.update(gameSize);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Draw game bodies.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        self.draw(screen, gameSize);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Queue up the next call to tick with the browser.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        requestAnimationFrame(tick);
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Kick off the game tick.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      tick();
+    });
+  };
+
+  Game.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p><strong>update()</strong> runs the main game logic.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    update: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(gameSize)</span> </span>{
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p><code>onScreen</code> returns true if passed is on screen.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> onScreen = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(b)</span> </span>{
+        <span class="hljs-keyword">return</span> colliding(b, {
+          center:  { x: gameSize.x / <span class="hljs-number">2</span>, y: gameSize.y / <span class="hljs-number">2</span> },
+          size: gameSize
+        });
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p><code>notCollidingWithAnything</code> returns true if passed body
+is not colliding with anything.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> notCollidingWithAnything = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(b1)</span> </span>{
+        <span class="hljs-keyword">return</span> self.bodies.filter(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(b2)</span> </span>{ <span class="hljs-keyword">return</span> colliding(b1, b2); }).length === <span class="hljs-number">0</span>;
+      };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Keep bodies that are on screen and not colliding with anything.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.bodies = <span class="hljs-keyword">this</span>.bodies.filter(notCollidingWithAnything).filter(onScreen);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Call update on every body.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.bodies.length; i++) {
+        <span class="hljs-keyword">this</span>.bodies[i].update();
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p><strong>draw()</strong> draws the game.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    draw: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(screen, gameSize)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Clear away the drawing from the previous tick.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      screen.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, gameSize.x, gameSize.y);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Draw each body as a rectangle.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.bodies.length; i++) {
+        drawRect(screen, <span class="hljs-keyword">this</span>.bodies[i]);
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p><strong>invadersBelow()</strong> returns true if <code>invader</code> is directly
+above at least one other invader.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    invadersBelow: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(invader)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>If filtered array is not empty, there are invaders below.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.bodies.filter(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(b)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Keep <code>b</code> if it is an invader, if it is in the same column
+as <code>invader</code>, and if it is somewhere below <code>invader</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> b <span class="hljs-keyword">instanceof</span> Invader &amp;&amp;
+          <span class="hljs-built_in">Math</span>.abs(invader.center.x - b.center.x) &lt; b.size.x &amp;&amp;
+          b.center.y &gt; invader.center.y;
+      }).length &gt; <span class="hljs-number">0</span>;
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p><strong>addBody()</strong> adds a body to the bodies array.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    addBody: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(body)</span> </span>{
+      <span class="hljs-keyword">this</span>.bodies.push(body);
+    },
+
+    onScreen: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(body)</span> </span>{
+      <span class="hljs-keyword">return</span>
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <h2 id="invaders">Invaders</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p><strong>new Invader()</strong> creates an invader.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Invader = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(game, center)</span> </span>{
+    <span class="hljs-keyword">this</span>.game = game;
+    <span class="hljs-keyword">this</span>.center = center;
+    <span class="hljs-keyword">this</span>.size = { x: <span class="hljs-number">15</span>, y: <span class="hljs-number">15</span> };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Invaders patrol from left to right and back again.
+<code>this.patrolX</code> records the current (relative) position of the
+invader in their patrol.  It starts at 0, increases to 40, then
+decreases to 0, and so forth.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.patrolX = <span class="hljs-number">0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>The x speed of the invader.  A positive value moves the invader
+right. A negative value moves it left.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.speedX = <span class="hljs-number">0.3</span>;
+  };
+
+  Invader.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p><strong>update()</strong> updates the state of the invader for a single tick.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    update: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>If the invader is outside the bounds of their patrol…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.patrolX &lt; <span class="hljs-number">0</span> || <span class="hljs-keyword">this</span>.patrolX &gt; <span class="hljs-number">30</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>… reverse direction of movement.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">this</span>.speedX = -<span class="hljs-keyword">this</span>.speedX;
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>If coin flip comes up and no friends below in this
+invader’s column…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.random() &gt; <span class="hljs-number">0.995</span> &amp;&amp;
+          !<span class="hljs-keyword">this</span>.game.invadersBelow(<span class="hljs-keyword">this</span>)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>… create a bullet just below the invader that will move
+downward…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> bullet = <span class="hljs-keyword">new</span> Bullet({ x: <span class="hljs-keyword">this</span>.center.x, y: <span class="hljs-keyword">this</span>.center.y + <span class="hljs-keyword">this</span>.size.y / <span class="hljs-number">2</span> },
+                                { x: <span class="hljs-built_in">Math</span>.random() - <span class="hljs-number">0.5</span>, y: <span class="hljs-number">2</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>… and add the bullet to the game.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">this</span>.game.addBody(bullet);
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Move according to current x speed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.center.x += <span class="hljs-keyword">this</span>.speedX;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Update variable that keeps track of current position in patrol.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.patrolX += <span class="hljs-keyword">this</span>.speedX;
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p><strong>createInvaders()</strong> returns an array of twenty-four invaders.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> createInvaders = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(game)</span> </span>{
+    <span class="hljs-keyword">var</span> invaders = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">24</span>; i++) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>Place invaders in eight columns.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> x = <span class="hljs-number">30</span> + (i % <span class="hljs-number">8</span>) * <span class="hljs-number">30</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>Place invaders in three rows.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> y = <span class="hljs-number">30</span> + (i % <span class="hljs-number">3</span>) * <span class="hljs-number">30</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Create invader.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      invaders.push(<span class="hljs-keyword">new</span> Invader(game, { x: x, y: y}));
+    }
+
+    <span class="hljs-keyword">return</span> invaders;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <h2 id="player">Player</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p><strong>new Player()</strong> creates a player.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Player = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(game, gameSize)</span> </span>{
+    <span class="hljs-keyword">this</span>.game = game;
+    <span class="hljs-keyword">this</span>.size = { x: <span class="hljs-number">15</span>, y: <span class="hljs-number">15</span> };
+    <span class="hljs-keyword">this</span>.center = { x: gameSize.x / <span class="hljs-number">2</span>, y: gameSize.y - <span class="hljs-keyword">this</span>.size.y * <span class="hljs-number">2</span> };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Create a keyboard object to track button presses.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.keyboarder = <span class="hljs-keyword">new</span> Keyboarder();
+  };
+
+  Player.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p><strong>update()</strong> updates the state of the player for a single tick.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    update: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>If left cursor key is down…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.keyboarder.isDown(<span class="hljs-keyword">this</span>.keyboarder.KEYS.LEFT)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>… move left.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">this</span>.center.x -= <span class="hljs-number">2</span>;
+
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.keyboarder.isDown(<span class="hljs-keyword">this</span>.keyboarder.KEYS.RIGHT)) {
+        <span class="hljs-keyword">this</span>.center.x += <span class="hljs-number">2</span>;
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>If S key is down…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.keyboarder.isDown(<span class="hljs-keyword">this</span>.keyboarder.KEYS.S)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>… create a bullet just above the player that will move upwards…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> bullet = <span class="hljs-keyword">new</span> Bullet({ x: <span class="hljs-keyword">this</span>.center.x, y: <span class="hljs-keyword">this</span>.center.y - <span class="hljs-keyword">this</span>.size.y - <span class="hljs-number">10</span> },
+                                { x: <span class="hljs-number">0</span>, y: -<span class="hljs-number">7</span> });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>… add the bullet to the game…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">this</span>.game.addBody(bullet);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>… rewind the shoot sound…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">this</span>.game.shootSound.load();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>… and play the shoot sound.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">this</span>.game.shootSound.play();
+      }
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <h2 id="bullet">Bullet</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p><strong>new Bullet()</strong> creates a new bullet.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Bullet = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(center, velocity)</span> </span>{
+    <span class="hljs-keyword">this</span>.center = center;
+    <span class="hljs-keyword">this</span>.size = { x: <span class="hljs-number">3</span>, y: <span class="hljs-number">3</span> };
+    <span class="hljs-keyword">this</span>.velocity = velocity;
+  };
+
+  Bullet.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <p><strong>update()</strong> updates the state of the bullet for a single tick.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    update: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <p>Add velocity to center to move bullet.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.center.x += <span class="hljs-keyword">this</span>.velocity.x;
+      <span class="hljs-keyword">this</span>.center.y += <span class="hljs-keyword">this</span>.velocity.y;
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <h2 id="keyboard-input-tracking">Keyboard input tracking</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-65">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-65">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-66">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-66">&#182;</a>
+              </div>
+              <p><strong>new Keyboarder()</strong> creates a new keyboard input tracking object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Keyboarder = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-67">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-67">&#182;</a>
+              </div>
+              <p>Records up/down state of each key that has ever been pressed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> keyState = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-68">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-68">&#182;</a>
+              </div>
+              <p>When key goes down, record that it is down.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'keydown'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> </span>{
+      keyState[e.keyCode] = <span class="hljs-literal">true</span>;
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-69">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-69">&#182;</a>
+              </div>
+              <p>When key goes up, record that it is up.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'keyup'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> </span>{
+      keyState[e.keyCode] = <span class="hljs-literal">false</span>;
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-70">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-70">&#182;</a>
+              </div>
+              <p>Returns true if passed key is currently down.  <code>keyCode</code> is a
+unique number that represents a particular key on the keyboard.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.isDown = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(keyCode)</span> </span>{
+      <span class="hljs-keyword">return</span> keyState[keyCode] === <span class="hljs-literal">true</span>;
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-71">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-71">&#182;</a>
+              </div>
+              <p>Handy constants that give keyCodes human-readable names.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.KEYS = { LEFT: <span class="hljs-number">37</span>, RIGHT: <span class="hljs-number">39</span>, S: <span class="hljs-number">83</span> };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-72">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-72">&#182;</a>
+              </div>
+              <h2 id="other-functions">Other functions</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-73">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-73">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-74">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-74">&#182;</a>
+              </div>
+              <p><strong>loadSound()</strong> Loads the sound at the passed <code>url</code>. Calls
+<code>callback</code> with the sound when it has loaded.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> loadSound = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, callback)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-75">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-75">&#182;</a>
+              </div>
+              <p>Run when the sound has loaded.  Calls passed <code>callback</code> and
+stops listening for the load event.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> loaded = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      callback(sound);
+      sound.removeEventListener(<span class="hljs-string">'canplaythrough'</span>, loaded);
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-76">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-76">&#182;</a>
+              </div>
+              <p>Create object to house sound.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> sound = <span class="hljs-keyword">new</span> Audio(url);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-77">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-77">&#182;</a>
+              </div>
+              <p>Get notified when the sound is loaded.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    sound.addEventListener(<span class="hljs-string">'canplaythrough'</span>, loaded);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-78">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-78">&#182;</a>
+              </div>
+              <p>Start sound loading.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    sound.load();
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-79">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-79">&#182;</a>
+              </div>
+              <p><strong>drawRect()</strong> draws passed body as a rectangle to <code>screen</code>, the drawing context.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> drawRect = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(screen, body)</span> </span>{
+    screen.fillRect(body.center.x - body.size.x / <span class="hljs-number">2</span>, body.center.y - body.size.y / <span class="hljs-number">2</span>,
+                    body.size.x, body.size.y);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-80">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-80">&#182;</a>
+              </div>
+              <p><strong>colliding()</strong> returns true if two passed bodies are colliding.
+The approach is to test for five situations.  If any are true,
+the bodies are definitely not colliding.  If none of them
+are true, the bodies are colliding.</p>
+<ol>
+<li>b1 is the same body as b2.</li>
+<li>Right of <code>b1</code> is to the left of the left of <code>b2</code>.</li>
+<li>Bottom of <code>b1</code> is above the top of <code>b2</code>.</li>
+<li>Left of <code>b1</code> is to the right of the right of <code>b2</code>.</li>
+<li>Top of <code>b1</code> is below the bottom of <code>b2</code>.</li>
+</ol>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> colliding = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(b1, b2)</span> </span>{
+    <span class="hljs-keyword">return</span> !(
+      b1 === b2 ||
+        b1.center.x + b1.size.x / <span class="hljs-number">2</span> &lt; b2.center.x - b2.size.x / <span class="hljs-number">2</span> ||
+        b1.center.y + b1.size.y / <span class="hljs-number">2</span> &lt; b2.center.y - b2.size.y / <span class="hljs-number">2</span> ||
+        b1.center.x - b1.size.x / <span class="hljs-number">2</span> &gt; b2.center.x + b2.size.x / <span class="hljs-number">2</span> ||
+        b1.center.y - b1.size.y / <span class="hljs-number">2</span> &gt; b2.center.y + b2.size.y / <span class="hljs-number">2</span>
+    );
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-81">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-81">&#182;</a>
+              </div>
+              <h2 id="start-game">Start game</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-82">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-82">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-83">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-83">&#182;</a>
+              </div>
+              <p>When the DOM is ready, create (and start) the game.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'load'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">new</span> Game();
+  });
+})();</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>app.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>app.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>;(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(exports)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>creates lines and circles and starts the animation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">var</span> screen = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'circles-bouncing-off-lines'</span>).getContext(<span class="hljs-string">'2d'</span>);
+
+    <span class="hljs-keyword">var</span> world = {
+      circles: [],
+      lines: [
+        makeLine({ x: <span class="hljs-number">100</span>, y: <span class="hljs-number">100</span> }),
+        makeLine({ x: <span class="hljs-number">200</span>, y: <span class="hljs-number">100</span> }),
+        makeLine({ x: <span class="hljs-number">150</span>, y: <span class="hljs-number">150</span> }),
+        makeLine({ x: <span class="hljs-number">100</span>, y: <span class="hljs-number">200</span> }),
+        makeLine({ x: <span class="hljs-number">220</span>, y: <span class="hljs-number">200</span> }),
+      ],
+      dimensions: { x: screen.canvas.width, y: screen.canvas.height },
+      timeLastCircleMade: <span class="hljs-number">0</span>
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>make grid of lines</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">6</span>; i++) {
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>; j &lt; <span class="hljs-number">6</span>; j++) {
+        world.lines.push();
+      }
+    }
+    world.lines.splice(<span class="hljs-number">10</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// throw away top center lines</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>move shapes, draw shapes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tick</span><span class="hljs-params">()</span> </span>{
+      update(world);
+      draw(world, screen);
+      requestAnimationFrame(tick); <span class="hljs-comment">// queues next tick with browser</span>
+    };
+
+    tick(); <span class="hljs-comment">// start update/draw loop</span>
+  };
+  exports.start = start; <span class="hljs-comment">// make start function available to HTML page</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>rotates the lines, moves and bounces the circles</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(world)</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = world.circles.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; world.lines.length; j++) {
+        physics.bounceCircle(world.circles[i], world.lines[j]);
+      }
+
+      physics.moveCircle(world.circles[i]);
+      <span class="hljs-keyword">if</span> (!isCircleInWorld(world.circles[i], world.dimensions)) {
+        world.circles.splice(i, <span class="hljs-number">1</span>); <span class="hljs-comment">// remove circles that have left screen</span>
+      }
+    }
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; world.lines.length; i++) {
+      world.lines[i].angle += world.lines[i].rotateSpeed;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>occasionally make a circle</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime();
+    <span class="hljs-keyword">if</span> (now - world.timeLastCircleMade &gt; <span class="hljs-number">400</span>) {
+      world.circles.push(makeCircle({ x: world.dimensions.x / <span class="hljs-number">2</span>, y: -<span class="hljs-number">5</span> }));
+      world.timeLastCircleMade = now;
+    }
+  };
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">draw</span><span class="hljs-params">(world, screen)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>fill screen with white</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    screen.fillStyle = <span class="hljs-string">"white"</span>;
+    screen.fillRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, world.dimensions.x, world.dimensions.y);
+
+    <span class="hljs-keyword">var</span> bodies = world.circles.concat(world.lines);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; bodies.length; i++) {
+      bodies[i].draw(screen);
+    }
+  };
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeCircle</span><span class="hljs-params">(center)</span> </span>{
+    <span class="hljs-keyword">return</span> {
+      center: center,
+      velocity: { x: <span class="hljs-number">0</span>, y: <span class="hljs-number">0</span> },
+      radius: <span class="hljs-number">5</span>,
+      draw: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(screen)</span> </span>{
+        screen.beginPath();
+        screen.arc(<span class="hljs-keyword">this</span>.center.x, <span class="hljs-keyword">this</span>.center.y, <span class="hljs-keyword">this</span>.radius, <span class="hljs-number">0</span>, <span class="hljs-built_in">Math</span>.PI * <span class="hljs-number">2</span>, <span class="hljs-literal">true</span>);
+        screen.closePath();
+        screen.fillStyle = <span class="hljs-string">"black"</span>;
+        screen.fill();
+      }
+    };
+  };
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeLine</span><span class="hljs-params">(center)</span> </span>{
+    <span class="hljs-keyword">return</span> {
+      center: center,
+      span: <span class="hljs-number">70</span>,
+      angle: <span class="hljs-number">0</span>,
+      rotateSpeed: <span class="hljs-number">0.5</span>,
+      draw: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(screen)</span> </span>{
+        <span class="hljs-keyword">var</span> end1 = trig.lineEndPoints(<span class="hljs-keyword">this</span>)[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">var</span> end2 = trig.lineEndPoints(<span class="hljs-keyword">this</span>)[<span class="hljs-number">1</span>];
+
+        screen.beginPath();
+        screen.lineWidth = <span class="hljs-number">1.5</span>;
+        screen.moveTo(end1.x, end1.y);
+        screen.lineTo(end2.x, end2.y);
+        screen.closePath();
+
+        screen.strokeStyle = <span class="hljs-string">"black"</span>;
+        screen.stroke();
+      }
+    };
+  };
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isCircleInWorld</span><span class="hljs-params">(circle, worldDimensions)</span> </span>{
+    <span class="hljs-keyword">return</span> circle.center.x &gt; -circle.radius &amp;&amp;
+      circle.center.x &lt; worldDimensions.x + circle.radius &amp;&amp;
+      circle.center.y &gt; -circle.radius &amp;&amp;
+      circle.center.y &lt; worldDimensions.y + circle.radius;
+  };
+
+  <span class="hljs-keyword">var</span> trig = {
+    distance: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(point1, point2)</span> </span>{
+      <span class="hljs-keyword">var</span> x = <span class="hljs-built_in">Math</span>.abs(point1.x - point2.x);
+      <span class="hljs-keyword">var</span> y = <span class="hljs-built_in">Math</span>.abs(point1.y - point2.y);
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sqrt((x * x) + (y * y));
+    },
+
+    magnitude: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(vector)</span> </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.sqrt(vector.x * vector.x + vector.y* vector.y);
+    },
+
+    unitVector: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(vector)</span> </span>{
+      <span class="hljs-keyword">return</span> {
+        x: vector.x / trig.magnitude(vector),
+        y: vector.y / trig.magnitude(vector)
+      };
+    },
+
+    dotProduct: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(vector1, vector2)</span> </span>{
+      <span class="hljs-keyword">return</span> vector1.x * vector2.x + vector1.y * vector2.y;
+    },
+
+    vectorBetween: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(startPoint, endPoint)</span> </span>{
+      <span class="hljs-keyword">return</span> {
+        x: endPoint.x - startPoint.x,
+        y: endPoint.y - startPoint.y
+      };
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>returns the points at the two ends of the passed line</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    lineEndPoints: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(line)</span> </span>{
+      <span class="hljs-keyword">var</span> angleRadians = line.angle * <span class="hljs-number">0.01745</span>;
+      <span class="hljs-keyword">var</span> lineUnitVector = trig.unitVector({
+        x: <span class="hljs-built_in">Math</span>.cos(angleRadians) * <span class="hljs-number">0</span> - <span class="hljs-built_in">Math</span>.sin(angleRadians) * -<span class="hljs-number">1</span>,
+        y: <span class="hljs-built_in">Math</span>.sin(angleRadians) * <span class="hljs-number">0</span> + <span class="hljs-built_in">Math</span>.cos(angleRadians) * -<span class="hljs-number">1</span>
+      });
+
+      <span class="hljs-keyword">return</span> [{
+        x: line.center.x + lineUnitVector.x * line.span / <span class="hljs-number">2</span>,
+        y: line.center.y + lineUnitVector.y * line.span / <span class="hljs-number">2</span>
+      }, {
+        x: line.center.x - lineUnitVector.x * line.span / <span class="hljs-number">2</span>,
+        y: line.center.y - lineUnitVector.y * line.span / <span class="hljs-number">2</span>
+      }];
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>returns point on passed line closest to passed circle</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    pointOnLineClosestToCircle: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(circle, line)</span> </span>{
+      <span class="hljs-keyword">var</span> lineEndPoint1 = trig.lineEndPoints(line)[<span class="hljs-number">0</span>];
+      <span class="hljs-keyword">var</span> lineEndPoint2 = trig.lineEndPoints(line)[<span class="hljs-number">1</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>vector representing line surface</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> lineUnitVector = trig.unitVector(
+        trig.vectorBetween(lineEndPoint1, lineEndPoint2));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>project vector between line end and circle along line to get
+distance between end and point on line closest to circle</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> projection = trig.dotProduct(trig.vectorBetween(lineEndPoint1, circle.center),
+                                       lineUnitVector);
+
+      <span class="hljs-keyword">if</span> (projection &lt;= <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> lineEndPoint1; <span class="hljs-comment">// off end of line - end is closest point</span>
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (projection &gt;= line.span) {
+        <span class="hljs-keyword">return</span> lineEndPoint2; <span class="hljs-comment">// ditto</span>
+      } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>part way along line - return that point</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> {
+          x: lineEndPoint1.x + lineUnitVector.x * projection,
+          y: lineEndPoint1.y + lineUnitVector.y * projection
+        };
+      }
+    },
+
+    isCircleIntersectingLine: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(circle, line)</span> </span>{
+      <span class="hljs-keyword">var</span> closest = trig.pointOnLineClosestToCircle(circle, line);
+      <span class="hljs-keyword">var</span> circleToLineDistance = trig.distance(circle.center, closest);
+      <span class="hljs-keyword">return</span> circleToLineDistance &lt; circle.radius;
+    }
+  }
+
+  <span class="hljs-keyword">var</span> physics = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>move passed circle based on its current speed</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    moveCircle: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(circle)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>simulate gravity</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      circle.velocity.y = circle.velocity.y + <span class="hljs-number">2</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>move according to current velocity</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      circle.center.x = circle.center.x + circle.velocity.x / <span class="hljs-number">30</span>;
+      circle.center.y = circle.center.y + circle.velocity.y / <span class="hljs-number">30</span>;
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>bounces circle off line</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    bounceCircle: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(circle, line)</span> </span>{
+      <span class="hljs-keyword">var</span> lineNormal = physics.bounceNormal(circle, line);
+      <span class="hljs-keyword">if</span> (lineNormal === <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// line not touching circle - no bounce</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>set new circle velocity by reflecting old velocity in
+the normal to the surface the circle is bouncing off</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> dot = trig.dotProduct(circle.velocity, lineNormal);
+      circle.velocity.x = circle.velocity.x - <span class="hljs-number">2</span> * dot * lineNormal.x;
+      circle.velocity.y = circle.velocity.y - <span class="hljs-number">2</span> * dot * lineNormal.y;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>move circle until outside line</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">while</span> (trig.isCircleIntersectingLine(circle, line)) {
+        physics.moveCircle(circle);
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>if line intersecting circle, returns normal to use to bounce circle</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    bounceNormal: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(circle, line)</span> </span>{
+      <span class="hljs-keyword">if</span> (trig.isCircleIntersectingLine(circle, line)) {
+        <span class="hljs-keyword">return</span> trig.unitVector(trig.vectorBetween(
+          trig.pointOnLineClosestToCircle(circle, line),
+          circle.center));
+      }
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h2 id="start">Start</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>When the DOM is ready, create (and start) the animation.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'load'</span>, start);
+})(<span class="hljs-keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
