@@ -31,7 +31,7 @@
     // Load the player shoot sound.  This is kind of backwards.  We're
     // about to start the game, but we're wrapping that important code
     // in this incidental sound load code.
-    loadSound("space-invaders/shoot.mp3", function(shootSound) {
+    loadSound("/space-invaders/shoot.mp3", function(shootSound) {
 
       // Put sound passed by the sound load callback on game object.
       self.shootSound = shootSound;
