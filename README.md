@@ -10,7 +10,7 @@ A series of short, heavily annotated JavaScript programs.
 
 Demonstrates an animation loop, collision detection, keyboard input, drawing to the canvas and playing sounds.
 
-![A screenshot of Space Invaders](screenshot.png)
+![A screenshot of Space Invaders](/space-invaders/screenshot.png)
 
 To read the annotated source, open `/space-invaders/annotated-source/app.html` in your browser.
 
