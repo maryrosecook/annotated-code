@@ -132,7 +132,7 @@
     update: function() {
 
       // If the invader is outside the bounds of their patrol...
-      if (this.patrolX < 0 || this.patrolX > 40) {
+      if (this.patrolX < 0 || this.patrolX > 30) {
 
         // ... reverse direction of movement.
         this.speedX = -this.speedX;
