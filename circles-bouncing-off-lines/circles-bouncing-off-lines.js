@@ -33,34 +33,62 @@
   // Export start() so it can be run by index.html
   exports.start = start;
 
-  // **update()** rotates the lines, moves and bounces the circles,
-  // and occasionally creates circles.
+  // **update()** updates the state of the lines and circles.
   function update(world) {
+
+    // Move and bounce the circles.
+    updateCircles(world)
+
+    // Create new circle if one hasn't been created for a while.
+    createNewCircleIfDue(world);
+
+    // Rotate the lines.
+    updateLines(world);
+  };
+
+  // **updateCircles()** moves and bounces the circles.
+  function updateCircles(world) {
     for (var i = world.circles.length - 1; i >= 0; i--) {
       var circle = world.circles[i];
+
+      // Run through all lines.
       for (var j = 0; j < world.lines.length; j++) {
         var line = world.lines[j];
+
+        // If `line` is intersecting `circle`, bounce circle off line.
         if (trig.isLineIntersectingCircle(circle, line)) {
           physics.bounceCircle(circle, line);
         }
       }
 
+      // Apply gravity to the velocity of `circle`.
       physics.applyGravity(circle);
+
+      // Move `circle` according to its velocity.
       physics.moveCircle(circle);
-      if (!isCircleInWorld(world.circles[i], world.dimensions)) {
-        world.circles.splice(i, 1); // remove circles that have left screen
+
+      // Remove circles that are off screen.
+      if (!isCircleInWorld(circle, world.dimensions)) {
+        world.circles.splice(i, 1);
       }
     }
+  };
 
-    for (var i = 0; i < world.lines.length; i++) {
-      world.lines[i].angle += world.lines[i].rotateSpeed;
-    }
-
-    // occasionally make a circle
+  // **createNewCircleIfDue()** creates a new circle every so often.
+  function createNewCircleIfDue(world) {
     var now = new Date().getTime();
     if (now - world.timeLastCircleMade > 400) {
       world.circles.push(makeCircle({ x: world.dimensions.x / 2, y: -5 }));
+
+      // Update last circle creation time.
       world.timeLastCircleMade = now;
+    }
+  };
+
+  // **updateLines()** rotates the lines.
+  function updateLines(world) {
+    for (var i = 0; i < world.lines.length; i++) {
+      world.lines[i].angle += world.lines[i].rotateSpeed;
     }
   };
 
