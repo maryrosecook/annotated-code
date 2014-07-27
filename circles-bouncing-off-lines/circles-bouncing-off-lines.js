@@ -94,9 +94,8 @@
 
   // **draw()** draws the all the circles and lines in the simulation.
   function draw(world, screen) {
-    // fill screen with white
-    screen.fillStyle = "white";
-    screen.fillRect(0, 0, world.dimensions.x, world.dimensions.y);
+    // Clear away the drawing from the previous tick.
+    screen.clearRect(0, 0, world.dimensions.x, world.dimensions.y);
 
     var bodies = world.circles.concat(world.lines);
     for (var i = 0; i < bodies.length; i++) {
