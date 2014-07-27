@@ -240,13 +240,9 @@
       circle.center.y += circle.velocity.y;
     },
 
-    // **bounceCircle()** determines if `line` is intersecting
-    // `circle`.  If it is, it bounces `circle`.  If not, it does nothing.
+    // **bounceCircle()** assumes `line` is intersecting `circle` and
+    // bounces `circle` off `line`.
     bounceCircle: function(circle, line) {
-      if (!trig.isLineIntersectingCircle(circle, line)) {
-        return; // line not touching circle - no bounce
-      }
-
       var bounceLineNormal = physics.bounceLineNormal(circle, line);
 
       // set new circle velocity by reflecting old velocity in
