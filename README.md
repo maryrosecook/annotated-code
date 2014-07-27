@@ -16,7 +16,7 @@ To read the annotated source, open `/space-invaders/docs/app.html` in your brows
 
 ## Circles bouncing off lines
 
-The code demonstrates some simple trig that calculates the movement of circles as they bounce off lines.
+Demonstrates some simple trig that calculates the movement of circles as they bounce off lines.
 
 ![An animation of circles bouncing off lines](/circles-bouncing-off-lines/screenshot.gif)
 
