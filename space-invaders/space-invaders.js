@@ -26,32 +26,27 @@
     // Add the player to the bodies array.
     this.bodies = this.bodies.concat(new Player(this, gameSize));
 
+    // In index.html, there is an audio tag that loads the shooting sound.
+    // Get the shoot sound from the DOM and store it on the game object.
+    this.shootSound = document.getElementById('shoot-sound');
+
     var self = this;
 
-    // Load the player shoot sound.  This is kind of backwards.  We're
-    // about to start the game, but we're wrapping that important code
-    // in this incidental sound load code.
-    loadSound("/space-invaders/shoot.mp3", function(shootSound) {
+    // Main game tick function.  Loops forever and runs 60ish times a second.
+    var tick = function() {
 
-      // Put sound passed by the sound load callback on game object.
-      self.shootSound = shootSound;
+      // Update game state.
+      self.update();
 
-      // Main game tick function.  Loops forever and runs 60ish times a second.
-      var tick = function() {
+      // Draw game bodies.
+      self.draw(screen, gameSize);
 
-        // Update game state.
-        self.update();
+      // Queue up the next call to tick with the browser.
+      requestAnimationFrame(tick);
+    };
 
-        // Draw game bodies.
-        self.draw(screen, gameSize);
-
-        // Queue up the next call to tick with the browser.
-        requestAnimationFrame(tick);
-      };
-
-      // Kick off the game tick.
-      tick();
-    });
+    // Kick off the game tick.
+    tick();
   };
 
   Game.prototype = {
@@ -275,27 +270,6 @@
 
   // Other functions
   // ---------------
-
-  // **loadSound()** Loads the sound at the passed `url`. Calls
-  // `callback` with the sound when it has loaded.
-  var loadSound = function(url, callback) {
-
-    // Run when the sound has loaded.  Calls passed `callback` and
-    // stops listening for the load event.
-    var loaded = function() {
-      callback(sound);
-      sound.removeEventListener('canplaythrough', loaded);
-    };
-
-    // Create object to house sound.
-    var sound = new Audio(url);
-
-    // Get notified when the sound is loaded.
-    sound.addEventListener('canplaythrough', loaded);
-
-    // Start sound loading.
-    sound.load();
-  };
 
   // **drawRect()** draws passed body as a rectangle to `screen`, the drawing context.
   var drawRect = function(screen, body) {
