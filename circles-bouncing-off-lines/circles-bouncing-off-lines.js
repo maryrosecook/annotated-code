@@ -206,8 +206,8 @@
     lineEndPoints: function(line) {
       var angleRadians = line.angle * 0.01745;
       var lineUnitVector = trig.unitVector({
-        x: Math.cos(angleRadians) * 0 - Math.sin(angleRadians) * -1,
-        y: Math.sin(angleRadians) * 0 + Math.cos(angleRadians) * -1
+        x: Math.cos(angleRadians),
+        y: Math.sin(angleRadians)
       });
 
       return [{
