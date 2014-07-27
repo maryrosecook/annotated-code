@@ -225,11 +225,9 @@
 
     // if line intersecting circle, returns normal to use to bounce circle
     bounceLineNormal: function(circle, line) {
-      if (trig.isLineIntersectingCircle(circle, line)) {
-        return trig.unitVector(trig.vectorBetween(
-          trig.pointOnLineClosestToCircle(circle, line),
-          circle.center));
-      }
+      return trig.unitVector(trig.vectorBetween(
+        trig.pointOnLineClosestToCircle(circle, line),
+        circle.center));
     }
   };
 
