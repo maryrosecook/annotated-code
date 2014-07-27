@@ -126,8 +126,8 @@
       circle.center.y < worldDimensions.y + circle.radius;
   };
 
-  // The trigonometry functions
-  // --------------------------
+  // Trigonometry functions to help with calculating ball movement
+  // -------------------------------------------------------------
 
   var trig = {
 
@@ -231,6 +231,9 @@
       return circleToLineDistance < circle.radius;
     }
   }
+
+  // Physics functions for calculating ball movement
+  // -----------------------------------------------
 
   var physics = {
 

@@ -322,7 +322,7 @@ and occasionally creates circles.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <h2 id="the-trigonometry-functions">The trigonometry functions</h2>
+              <h2 id="trigonometry-functions-to-help-with-calculating-ball-movement">Trigonometry functions to help with calculating ball movement</h2>
 
             </div>
             
@@ -573,9 +573,7 @@ intersecting <code>circle</code>.</p>
       <span class="hljs-keyword">var</span> circleToLineDistance = trig.distance(circle.center, closest);
       <span class="hljs-keyword">return</span> circleToLineDistance &lt; circle.radius;
     }
-  }
-
-  <span class="hljs-keyword">var</span> physics = {</pre></div></div>
+  }</pre></div></div>
             
         </li>
         
@@ -585,6 +583,34 @@ intersecting <code>circle</code>.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <h2 id="physics-functions-for-calculating-ball-movement">Physics functions for calculating ball movement</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  <span class="hljs-keyword">var</span> physics = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p><strong>moveCircle()</strong> applies gravity to the velocity of <code>circle</code>.
 It also adds the velocity of the circle to its <code>center</code>.</p>
@@ -596,11 +622,11 @@ It also adds the velocity of the circle to its <code>center</code>.</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>simulate gravity</p>
 
@@ -611,11 +637,11 @@ It also adds the velocity of the circle to its <code>center</code>.</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <p>move according to current velocity</p>
 
@@ -628,11 +654,11 @@ It also adds the velocity of the circle to its <code>center</code>.</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p><strong>bounceCircle()</strong> determines if <code>line</code> is intersecting
 <code>circle</code>.  If it is, it bounces <code>circle</code>.  If not, it does nothing.</p>
@@ -649,11 +675,11 @@ It also adds the velocity of the circle to its <code>center</code>.</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>set new circle velocity by reflecting old velocity in
 the normal to the surface the circle is bouncing off</p>
@@ -667,11 +693,11 @@ the normal to the surface the circle is bouncing off</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>move circle until outside line</p>
 
@@ -685,11 +711,11 @@ the normal to the surface the circle is bouncing off</p>
         </li>
         
         
-        <li id="section-34">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p><strong>bounceLineNormal()</strong> assumes <code>line</code> intersects <code>circle</code>.  It
 returns the normal to the side of the line that the <code>circle</code> is
@@ -707,11 +733,11 @@ hitting.</p>
         </li>
         
         
-        <li id="section-35">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <h2 id="start">Start</h2>
 
@@ -720,11 +746,11 @@ hitting.</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               
             </div>
@@ -732,11 +758,11 @@ hitting.</p>
         </li>
         
         
-        <li id="section-37">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <p>When the DOM is ready, create (and start) the simulation.</p>
 
