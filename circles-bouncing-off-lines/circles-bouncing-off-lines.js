@@ -37,8 +37,12 @@
   // and occasionally creates circles.
   function update(world) {
     for (var i = world.circles.length - 1; i >= 0; i--) {
+      var circle = world.circles[i];
       for (var j = 0; j < world.lines.length; j++) {
-        physics.bounceCircle(world.circles[i], world.lines[j]);
+        var line = world.lines[j];
+        if (trig.isLineIntersectingCircle(circle, line)) {
+          physics.bounceCircle(circle, line);
+        }
       }
 
       physics.moveCircle(world.circles[i]);
