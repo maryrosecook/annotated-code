@@ -336,6 +336,6 @@
   // Start
   // -----
 
-  // When the DOM is ready, create (and start) the simulation.
+  // When the DOM is ready, start the simulation.
   window.addEventListener('load', start);
 })(this);
