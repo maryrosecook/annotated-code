@@ -199,11 +199,11 @@
     // move passed circle based on its current speed
     moveCircle: function(circle) {
       // simulate gravity
-      circle.velocity.y = circle.velocity.y + 0.06;
+      circle.velocity.y += 0.06;
 
       // move according to current velocity
-      circle.center.x = circle.center.x + circle.velocity.x;
-      circle.center.y = circle.center.y + circle.velocity.y;
+      circle.center.x += circle.velocity.x;
+      circle.center.y += circle.velocity.y;
     },
 
     // bounces circle off line
@@ -214,8 +214,8 @@
       // set new circle velocity by reflecting old velocity in
       // the normal to the surface the circle is bouncing off
       var dot = trig.dotProduct(circle.velocity, lineNormal);
-      circle.velocity.x = circle.velocity.x - 2 * dot * lineNormal.x;
-      circle.velocity.y = circle.velocity.y - 2 * dot * lineNormal.y;
+      circle.velocity.x -= 2 * dot * lineNormal.x;
+      circle.velocity.y -= 2 * dot * lineNormal.y;
 
       // move circle until outside line
       while (trig.isCircleIntersectingLine(circle, line)) {
