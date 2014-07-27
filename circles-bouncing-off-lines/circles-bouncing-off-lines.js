@@ -210,13 +210,30 @@
         y: Math.sin(angleRadians)
       });
 
-      return [{
-        x: line.center.x + lineUnitVector.x * line.len / 2,
-        y: line.center.y + lineUnitVector.y * line.len / 2
-      }, {
-        x: line.center.x - lineUnitVector.x * line.len / 2,
-        y: line.center.y - lineUnitVector.y * line.len / 2
-      }];
+      // Multiply the unit vector by half the line length.  This
+      // produces a vector that represents the offset of one of the
+      // ends of the line from the center.
+      var endOffsetFromCenterVector = {
+        x: lineUnitVector.x * line.len / 2,
+        y: lineUnitVector.y * line.len / 2
+      };
+
+      // Return an array that contains the points at the two `line` ends.
+      return [
+
+        // Add the end offset to the center to get one end of 'line'.
+        {
+          x: line.center.x + endOffsetFromCenterVector.x,
+          y: line.center.y + endOffsetFromCenterVector.y
+        },
+
+        // Subtract the end offset from the center to get the other
+        // end of `line`.
+        {
+          x: line.center.x - endOffsetFromCenterVector.x,
+          y: line.center.y - endOffsetFromCenterVector.y
+        }
+      ];
     },
 
     // **pointOnLineClosestToCircle()** returns the point on `line`
