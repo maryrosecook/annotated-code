@@ -20,14 +20,6 @@
       timeLastCircleMade: 0
     };
 
-    // make grid of lines
-    for (var i = 1; i < 6; i++) {
-      for (var j = 1; j < 6; j++) {
-        world.lines.push();
-      }
-    }
-    world.lines.splice(10, 2); // throw away top center lines
-
     // move shapes, draw shapes
     function tick() {
       update(world);
