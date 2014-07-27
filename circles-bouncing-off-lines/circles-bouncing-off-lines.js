@@ -5,10 +5,17 @@
 
   // **start()** creates the lines and circles and starts the simulation.
   function start() {
+
+    // In index.html, there is a canvas tag that the game will be drawn in.
+    // Grab that canvas out of the DOM.  From it, get the drawing
+    // context, an object that contains functions that allow drawing to the canvas.
     var screen = document.getElementById('circles-bouncing-off-lines').getContext('2d');
 
+    // `world` holds the current state of the world.
     var world = {
       circles: [],
+
+      // Set up the five lines.
       lines: [
         makeLine({ x: 100, y: 100 }),
         makeLine({ x: 200, y: 100 }),
@@ -16,21 +23,32 @@
         makeLine({ x: 100, y: 200 }),
         makeLine({ x: 220, y: 200 }),
       ],
+
       dimensions: { x: screen.canvas.width, y: screen.canvas.height },
+
+      // `timeLastCircleMade` is used in the periodic creation of new circles.
       timeLastCircleMade: 0
     };
 
-    // move shapes, draw shapes
+    // **tick()** is the main simulation tick function.  It loops forever, running 60ish times a second.
     function tick() {
+
+      // Update state of circles and lines.
       update(world);
+
+      // Draw circles and lines.
       draw(world, screen);
-      requestAnimationFrame(tick); // queues next tick with browser
+
+      // Queue up the next call to tick with the browser.
+      requestAnimationFrame(tick);
     };
 
-    tick(); // start update/draw loop
+    // Run the first game tick.  All future calls will be scheduled by
+    // `tick()` itself.
+    tick();
   };
 
-  // Export start() so it can be run by index.html
+  // Export `start()` so it can be run by index.html
   exports.start = start;
 
   // **update()** updates the state of the lines and circles.
@@ -109,6 +127,9 @@
       center: center,
       velocity: { x: 0, y: 0 },
       radius: 5,
+
+      // The circle has its own built-in `draw()` function.  This allows
+      // the main `draw()` to just polymorphicly call `draw()` on circles and lines.
       draw: function(screen) {
         screen.beginPath();
         screen.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2, true);
@@ -124,8 +145,14 @@
     return {
       center: center,
       len: 70,
+
+      // Angle of the line in degrees.
       angle: 0,
+
       rotateSpeed: 0.5,
+
+      // The line has its own built-in `draw()` function.  This allows
+      // the main `draw()` to just polymorphicly call `draw()` on circles and lines.
       draw: function(screen) {
         var end1 = trig.lineEndPoints(this)[0];
         var end2 = trig.lineEndPoints(this)[1];
@@ -205,6 +232,9 @@
     // at each end of `line`.
     lineEndPoints: function(line) {
       var angleRadians = line.angle * 0.01745;
+
+      // Create a unit vector that represents the heading of
+      // `line`.
       var lineUnitVector = trig.unitVector({
         x: Math.cos(angleRadians),
         y: Math.sin(angleRadians)
@@ -284,8 +314,15 @@
     // **isLineIntersectingCircle()** returns true if `line` is
     // intersecting `circle`.
     isLineIntersectingCircle: function(circle, line) {
+
+      // Get point on line closest to circle.
       var closest = trig.pointOnLineClosestToCircle(circle, line);
+
+      // Get the distance between the closest point and the center of
+      // the circle.
       var circleToLineDistance = trig.distance(circle.center, closest);
+
+      // Return true if distance is less than the radius.
       return circleToLineDistance < circle.radius;
     }
   }
@@ -309,15 +346,19 @@
     // **bounceCircle()** assumes `line` is intersecting `circle` and
     // bounces `circle` off `line`.
     bounceCircle: function(circle, line) {
+
+      // Get the vector that points out from the surface the circle is
+      // bouncing on.
       var bounceLineNormal = physics.bounceLineNormal(circle, line);
 
-      // set new circle velocity by reflecting old velocity in
-      // the normal to the surface the circle is bouncing off
+      // Set the new circle velocity by reflecting the old velocity in
+      // `bounceLineNormal`.
       var dot = trig.dotProduct(circle.velocity, bounceLineNormal);
       circle.velocity.x -= 2 * dot * bounceLineNormal.x;
       circle.velocity.y -= 2 * dot * bounceLineNormal.y;
 
-      // move circle until outside line
+      // Move the circle until it has cleared the line.  This stops
+      // the circle getting stuck in the line.
       while (trig.isLineIntersectingCircle(circle, line)) {
         physics.moveCircle(circle);
       }
@@ -327,9 +368,19 @@
     // returns the normal to the side of the line that the `circle` is
     // hitting.
     bounceLineNormal: function(circle, line) {
-      return trig.unitVector(trig.vectorBetween(
-        trig.pointOnLineClosestToCircle(circle, line),
-        circle.center));
+
+      // Get vector that starts at the closest point on
+      // the line and ends at the circle.  If the circle is hitting
+      // the flat of the line, this vector will point perpenticular to
+      // the line.  If the circle is hitting the end of the line, the
+      // vector will point from the end to the center of the circle.
+      var circleToClosestPointOnLineVector =
+          trig.vectorBetween(
+            trig.pointOnLineClosestToCircle(circle, line),
+            circle.center);
+
+      // Make the normal a unit vector and return it.
+      return trig.unitVector(circleToClosestPointOnLineVector);
     }
   };
 
