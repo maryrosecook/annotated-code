@@ -199,11 +199,11 @@
     // move passed circle based on its current speed
     moveCircle: function(circle) {
       // simulate gravity
-      circle.velocity.y = circle.velocity.y + 2;
+      circle.velocity.y = circle.velocity.y + 0.06;
 
       // move according to current velocity
-      circle.center.x = circle.center.x + circle.velocity.x / 30;
-      circle.center.y = circle.center.y + circle.velocity.y / 30;
+      circle.center.x = circle.center.x + circle.velocity.x;
+      circle.center.y = circle.center.y + circle.velocity.y;
     },
 
     // bounces circle off line
