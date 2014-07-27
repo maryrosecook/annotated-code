@@ -123,7 +123,7 @@
   function makeLine(center) {
     return {
       center: center,
-      span: 70,
+      len: 70,
       angle: 0,
       rotateSpeed: 0.5,
       draw: function(screen) {
@@ -211,11 +211,11 @@
       });
 
       return [{
-        x: line.center.x + lineUnitVector.x * line.span / 2,
-        y: line.center.y + lineUnitVector.y * line.span / 2
+        x: line.center.x + lineUnitVector.x * line.len / 2,
+        y: line.center.y + lineUnitVector.y * line.len / 2
       }, {
-        x: line.center.x - lineUnitVector.x * line.span / 2,
-        y: line.center.y - lineUnitVector.y * line.span / 2
+        x: line.center.x - lineUnitVector.x * line.len / 2,
+        y: line.center.y - lineUnitVector.y * line.len / 2
       }];
     },
 
@@ -236,7 +236,7 @@
 
       if (projection <= 0) {
         return lineEndPoint1; // off end of line - end is closest point
-      } else if (projection >= line.span) {
+      } else if (projection >= line.len) {
         return lineEndPoint2; // ditto
       } else {
         // part way along line - return that point
