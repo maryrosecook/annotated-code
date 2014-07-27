@@ -45,7 +45,8 @@
         }
       }
 
-      physics.moveCircle(world.circles[i]);
+      physics.applyGravity(circle);
+      physics.moveCircle(circle);
       if (!isCircleInWorld(world.circles[i], world.dimensions)) {
         world.circles.splice(i, 1); // remove circles that have left screen
       }
@@ -233,13 +234,13 @@
 
   var physics = {
 
-    // **moveCircle()** applies gravity to the velocity of `circle`.
-    // It also adds the velocity of the circle to its `center`.
-    moveCircle: function(circle) {
-      // simulate gravity
+    // **applyGravity()** adds gravity to the velocity of `circle`.
+    applyGravity: function(circle) {
       circle.velocity.y += 0.06;
+    },
 
-      // move according to current velocity
+    // **moveCircle()** adds the velocity of the circle to its center.
+    moveCircle: function(circle) {
       circle.center.x += circle.velocity.x;
       circle.center.y += circle.velocity.y;
     },
