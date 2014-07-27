@@ -208,14 +208,14 @@
 
     // bounces circle off line
     bounceCircle: function(circle, line) {
-      var lineNormal = physics.bounceNormal(circle, line);
-      if (lineNormal === undefined) return; // line not touching circle - no bounce
+      var bounceLineNormal = physics.bounceLineNormal(circle, line);
+      if (bounceLineNormal === undefined) return; // line not touching circle - no bounce
 
       // set new circle velocity by reflecting old velocity in
       // the normal to the surface the circle is bouncing off
-      var dot = trig.dotProduct(circle.velocity, lineNormal);
-      circle.velocity.x -= 2 * dot * lineNormal.x;
-      circle.velocity.y -= 2 * dot * lineNormal.y;
+      var dot = trig.dotProduct(circle.velocity, bounceLineNormal);
+      circle.velocity.x -= 2 * dot * bounceLineNormal.x;
+      circle.velocity.y -= 2 * dot * bounceLineNormal.y;
 
       // move circle until outside line
       while (trig.isLineIntersectingCircle(circle, line)) {
@@ -224,7 +224,7 @@
     },
 
     // if line intersecting circle, returns normal to use to bounce circle
-    bounceNormal: function(circle, line) {
+    bounceLineNormal: function(circle, line) {
       if (trig.isLineIntersectingCircle(circle, line)) {
         return trig.unitVector(trig.vectorBetween(
           trig.pointOnLineClosestToCircle(circle, line),
