@@ -117,8 +117,8 @@
 
   var trig = {
     distance: function(point1, point2) {
-      var x = Math.abs(point1.x - point2.x);
-      var y = Math.abs(point1.y - point2.y);
+      var x = point1.x - point2.x;
+      var y = point1.y - point2.y;
       return Math.sqrt((x * x) + (y * y));
     },
 
