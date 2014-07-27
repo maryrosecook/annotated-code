@@ -162,9 +162,7 @@ place game bodies.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.bodies = <span class="hljs-keyword">this</span>.bodies.concat(<span class="hljs-keyword">new</span> Player(<span class="hljs-keyword">this</span>, gameSize));
-
-    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.bodies = <span class="hljs-keyword">this</span>.bodies.concat(<span class="hljs-keyword">new</span> Player(<span class="hljs-keyword">this</span>, gameSize));</pre></div></div>
             
         </li>
         
@@ -175,13 +173,14 @@ place game bodies.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>Load the player shoot sound.  This is kind of backwards.  We’re
-about to start the game, but we’re wrapping that important code
-in this incidental sound load code.</p>
+              <p>In index.html, there is an audio tag that loads the shooting sound.
+Get the shoot sound from the DOM and store it on the game object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    loadSound(<span class="hljs-string">"/space-invaders/shoot.mp3"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(shootSound)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.shootSound = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'shoot-sound'</span>);
+
+    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
             
         </li>
         
@@ -192,11 +191,11 @@ in this incidental sound load code.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>Put sound passed by the sound load callback on game object.</p>
+              <p>Main game tick function.  Loops forever and runs 60ish times a second.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      self.shootSound = shootSound;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> tick = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
             
         </li>
         
@@ -207,11 +206,11 @@ in this incidental sound load code.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Main game tick function.  Loops forever and runs 60ish times a second.</p>
+              <p>Update game state.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> tick = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      self.update();</pre></div></div>
             
         </li>
         
@@ -222,11 +221,11 @@ in this incidental sound load code.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>Update game state.</p>
+              <p>Draw game bodies.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        self.update();</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      self.draw(screen, gameSize);</pre></div></div>
             
         </li>
         
@@ -237,11 +236,12 @@ in this incidental sound load code.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>Draw game bodies.</p>
+              <p>Queue up the next call to tick with the browser.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        self.draw(screen, gameSize);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      requestAnimationFrame(tick);
+    };</pre></div></div>
             
         </li>
         
@@ -252,12 +252,14 @@ in this incidental sound load code.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>Queue up the next call to tick with the browser.</p>
+              <p>Kick off the game tick.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        requestAnimationFrame(tick);
-      };</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    tick();
+  };
+
+  Game.prototype = {</pre></div></div>
             
         </li>
         
@@ -267,25 +269,6 @@ in this incidental sound load code.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
-              <p>Kick off the game tick.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      tick();
-    });
-  };
-
-  Game.prototype = {</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-18">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p><strong>update()</strong> runs the main game logic.</p>
 
@@ -297,11 +280,11 @@ in this incidental sound load code.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p><code>notCollidingWithAnything</code> returns true if passed body
 is not colliding with anything.</p>
@@ -315,11 +298,11 @@ is not colliding with anything.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Throw away bodies that are colliding with something. They
 will never be updated or draw again.</p>
@@ -331,11 +314,11 @@ will never be updated or draw again.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Call update on every body.</p>
 
@@ -349,11 +332,11 @@ will never be updated or draw again.</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p><strong>draw()</strong> draws the game.</p>
 
@@ -364,11 +347,11 @@ will never be updated or draw again.</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Clear away the drawing from the previous tick.</p>
 
@@ -379,11 +362,11 @@ will never be updated or draw again.</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Draw each body as a rectangle.</p>
 
@@ -397,11 +380,11 @@ will never be updated or draw again.</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p><strong>invadersBelow()</strong> returns true if <code>invader</code> is directly
 above at least one other invader.</p>
@@ -413,11 +396,11 @@ above at least one other invader.</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>If filtered array is not empty, there are invaders below.</p>
 
@@ -428,11 +411,11 @@ above at least one other invader.</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>Keep <code>b</code> if it is an invader, if it is in the same column
 as <code>invader</code>, and if it is somewhere below <code>invader</code>.</p>
@@ -448,11 +431,11 @@ as <code>invader</code>, and if it is somewhere below <code>invader</code>.</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p><strong>addBody()</strong> adds a body to the bodies array.</p>
 
@@ -466,14 +449,26 @@ as <code>invader</code>, and if it is somewhere below <code>invader</code>.</p>
         </li>
         
         
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <h2 id="invaders">Invaders</h2>
+
+            </div>
+            
+        </li>
+        
+        
         <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
-              <h2 id="invaders">Invaders</h2>
-
+              
             </div>
             
         </li>
@@ -484,18 +479,6 @@ as <code>invader</code>, and if it is somewhere below <code>invader</code>.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-30">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-31">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p><strong>new Invader()</strong> creates an invader.</p>
 
@@ -509,11 +492,11 @@ as <code>invader</code>, and if it is somewhere below <code>invader</code>.</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>Invaders patrol from left to right and back again.
 <code>this.patrolX</code> records the current (relative) position of the
@@ -527,11 +510,11 @@ decreases to 0, and so forth.</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <p>The x speed of the invader.  A positive value moves the invader
 right. A negative value moves it left.</p>
@@ -546,11 +529,11 @@ right. A negative value moves it left.</p>
         </li>
         
         
-        <li id="section-34">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p><strong>update()</strong> updates the state of the invader for a single tick.</p>
 
@@ -561,11 +544,11 @@ right. A negative value moves it left.</p>
         </li>
         
         
-        <li id="section-35">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>If the invader is outside the bounds of their patrol…</p>
 
@@ -576,11 +559,11 @@ right. A negative value moves it left.</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>… reverse direction of movement.</p>
 
@@ -592,11 +575,11 @@ right. A negative value moves it left.</p>
         </li>
         
         
-        <li id="section-37">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p>If coin flip comes up and no friends below in this
 invader’s column…</p>
@@ -609,11 +592,11 @@ invader’s column…</p>
         </li>
         
         
-        <li id="section-38">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p>… create a bullet just below the invader that will move
 downward…</p>
@@ -626,11 +609,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-39">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-39">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               <p>… and add the bullet to the game.</p>
 
@@ -642,11 +625,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-40">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-40">&#182;</a>
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <p>Move according to current x speed.</p>
 
@@ -657,11 +640,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-41">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-41">&#182;</a>
+                <a class="pilcrow" href="#section-40">&#182;</a>
               </div>
               <p>Update variable that keeps track of current position in patrol.</p>
 
@@ -674,11 +657,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-42">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-42">&#182;</a>
+                <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
               <p><strong>createInvaders()</strong> returns an array of twenty-four invaders.</p>
 
@@ -691,11 +674,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-43">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-43">&#182;</a>
+                <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
               <p>Place invaders in eight columns.</p>
 
@@ -706,11 +689,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-44">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-44">&#182;</a>
+                <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               <p>Place invaders in three rows.</p>
 
@@ -721,11 +704,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-45">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-45">&#182;</a>
+                <a class="pilcrow" href="#section-44">&#182;</a>
               </div>
               <p>Create invader.</p>
 
@@ -740,14 +723,26 @@ downward…</p>
         </li>
         
         
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <h2 id="player">Player</h2>
+
+            </div>
+            
+        </li>
+        
+        
         <li id="section-46">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-46">&#182;</a>
               </div>
-              <h2 id="player">Player</h2>
-
+              
             </div>
             
         </li>
@@ -758,18 +753,6 @@ downward…</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-47">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-48">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-48">&#182;</a>
               </div>
               <p><strong>new Player()</strong> creates a player.</p>
 
@@ -783,11 +766,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-49">
+        <li id="section-48">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-49">&#182;</a>
+                <a class="pilcrow" href="#section-48">&#182;</a>
               </div>
               <p>Create a keyboard object to track button presses.</p>
 
@@ -801,11 +784,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-50">
+        <li id="section-49">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-50">&#182;</a>
+                <a class="pilcrow" href="#section-49">&#182;</a>
               </div>
               <p><strong>update()</strong> updates the state of the player for a single tick.</p>
 
@@ -816,11 +799,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-51">
+        <li id="section-50">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-51">&#182;</a>
+                <a class="pilcrow" href="#section-50">&#182;</a>
               </div>
               <p>If left cursor key is down…</p>
 
@@ -831,11 +814,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-52">
+        <li id="section-51">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-52">&#182;</a>
+                <a class="pilcrow" href="#section-51">&#182;</a>
               </div>
               <p>… move left.</p>
 
@@ -850,11 +833,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-53">
+        <li id="section-52">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-53">&#182;</a>
+                <a class="pilcrow" href="#section-52">&#182;</a>
               </div>
               <p>If S key is down…</p>
 
@@ -865,11 +848,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-54">
+        <li id="section-53">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-54">&#182;</a>
+                <a class="pilcrow" href="#section-53">&#182;</a>
               </div>
               <p>… create a bullet just above the player that will move upwards…</p>
 
@@ -881,11 +864,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-55">
+        <li id="section-54">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-55">&#182;</a>
+                <a class="pilcrow" href="#section-54">&#182;</a>
               </div>
               <p>… add the bullet to the game…</p>
 
@@ -896,11 +879,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-56">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-56">&#182;</a>
+                <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
               <p>… rewind the shoot sound…</p>
 
@@ -911,11 +894,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-57">
+        <li id="section-56">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-57">&#182;</a>
+                <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
               <p>… and play the shoot sound.</p>
 
@@ -929,14 +912,26 @@ downward…</p>
         </li>
         
         
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <h2 id="bullet">Bullet</h2>
+
+            </div>
+            
+        </li>
+        
+        
         <li id="section-58">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-58">&#182;</a>
               </div>
-              <h2 id="bullet">Bullet</h2>
-
+              
             </div>
             
         </li>
@@ -947,18 +942,6 @@ downward…</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-59">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-60">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
               <p><strong>new Bullet()</strong> creates a new bullet.</p>
 
@@ -975,11 +958,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-61">
+        <li id="section-60">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-61">&#182;</a>
+                <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
               <p><strong>update()</strong> updates the state of the bullet for a single tick.</p>
 
@@ -990,11 +973,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-62">
+        <li id="section-61">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-62">&#182;</a>
+                <a class="pilcrow" href="#section-61">&#182;</a>
               </div>
               <p>Add velocity to center to move bullet.</p>
 
@@ -1008,14 +991,26 @@ downward…</p>
         </li>
         
         
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <h2 id="keyboard-input-tracking">Keyboard input tracking</h2>
+
+            </div>
+            
+        </li>
+        
+        
         <li id="section-63">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-63">&#182;</a>
               </div>
-              <h2 id="keyboard-input-tracking">Keyboard input tracking</h2>
-
+              
             </div>
             
         </li>
@@ -1027,8 +1022,11 @@ downward…</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-64">&#182;</a>
               </div>
-              
+              <p><strong>new Keyboarder()</strong> creates a new keyboard input tracking object.</p>
+
             </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Keyboarder = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
             
         </li>
         
@@ -1039,21 +1037,6 @@ downward…</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-65">&#182;</a>
               </div>
-              <p><strong>new Keyboarder()</strong> creates a new keyboard input tracking object.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Keyboarder = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-66">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-66">&#182;</a>
-              </div>
               <p>Records up/down state of each key that has ever been pressed.</p>
 
             </div>
@@ -1063,11 +1046,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-67">
+        <li id="section-66">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-67">&#182;</a>
+                <a class="pilcrow" href="#section-66">&#182;</a>
               </div>
               <p>When key goes down, record that it is down.</p>
 
@@ -1080,11 +1063,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-68">
+        <li id="section-67">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-68">&#182;</a>
+                <a class="pilcrow" href="#section-67">&#182;</a>
               </div>
               <p>When key goes up, record that it is up.</p>
 
@@ -1097,11 +1080,11 @@ downward…</p>
         </li>
         
         
-        <li id="section-69">
+        <li id="section-68">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-69">&#182;</a>
+                <a class="pilcrow" href="#section-68">&#182;</a>
               </div>
               <p>Returns true if passed key is currently down.  <code>keyCode</code> is a
 unique number that represents a particular key on the keyboard.</p>
@@ -1115,11 +1098,11 @@ unique number that represents a particular key on the keyboard.</p>
         </li>
         
         
-        <li id="section-70">
+        <li id="section-69">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-70">&#182;</a>
+                <a class="pilcrow" href="#section-69">&#182;</a>
               </div>
               <p>Handy constants that give keyCodes human-readable names.</p>
 
@@ -1131,14 +1114,26 @@ unique number that represents a particular key on the keyboard.</p>
         </li>
         
         
+        <li id="section-70">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-70">&#182;</a>
+              </div>
+              <h2 id="other-functions">Other functions</h2>
+
+            </div>
+            
+        </li>
+        
+        
         <li id="section-71">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-71">&#182;</a>
               </div>
-              <h2 id="other-functions">Other functions</h2>
-
+              
             </div>
             
         </li>
@@ -1149,99 +1144,6 @@ unique number that represents a particular key on the keyboard.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-72">&#182;</a>
-              </div>
-              
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-73">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-73">&#182;</a>
-              </div>
-              <p><strong>loadSound()</strong> Loads the sound at the passed <code>url</code>. Calls
-<code>callback</code> with the sound when it has loaded.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> loadSound = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, callback)</span> </span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-74">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-74">&#182;</a>
-              </div>
-              <p>Run when the sound has loaded.  Calls passed <code>callback</code> and
-stops listening for the load event.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> loaded = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
-      callback(sound);
-      sound.removeEventListener(<span class="hljs-string">'canplaythrough'</span>, loaded);
-    };</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-75">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-75">&#182;</a>
-              </div>
-              <p>Create object to house sound.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> sound = <span class="hljs-keyword">new</span> Audio(url);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-76">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-76">&#182;</a>
-              </div>
-              <p>Get notified when the sound is loaded.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    sound.addEventListener(<span class="hljs-string">'canplaythrough'</span>, loaded);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-77">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-77">&#182;</a>
-              </div>
-              <p>Start sound loading.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    sound.load();
-  };</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-78">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-78">&#182;</a>
               </div>
               <p><strong>drawRect()</strong> draws passed body as a rectangle to <code>screen</code>, the drawing context.</p>
 
@@ -1255,11 +1157,11 @@ stops listening for the load event.</p>
         </li>
         
         
-        <li id="section-79">
+        <li id="section-73">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-79">&#182;</a>
+                <a class="pilcrow" href="#section-73">&#182;</a>
               </div>
               <p><strong>colliding()</strong> returns true if two passed bodies are colliding.
 The approach is to test for five situations.  If any are true,
@@ -1288,11 +1190,11 @@ are true, the bodies are colliding.</p>
         </li>
         
         
-        <li id="section-80">
+        <li id="section-74">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-80">&#182;</a>
+                <a class="pilcrow" href="#section-74">&#182;</a>
               </div>
               <h2 id="start-game">Start game</h2>
 
@@ -1301,11 +1203,11 @@ are true, the bodies are colliding.</p>
         </li>
         
         
-        <li id="section-81">
+        <li id="section-75">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-81">&#182;</a>
+                <a class="pilcrow" href="#section-75">&#182;</a>
               </div>
               
             </div>
@@ -1313,11 +1215,11 @@ are true, the bodies are colliding.</p>
         </li>
         
         
-        <li id="section-82">
+        <li id="section-76">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-82">&#182;</a>
+                <a class="pilcrow" href="#section-76">&#182;</a>
               </div>
               <p>When the DOM is ready, create (and start) the game.</p>
 
