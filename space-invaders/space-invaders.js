@@ -6,8 +6,8 @@
   // **new Game()** Creates the game object with the game state and logic.
   var Game = function() {
 
-    // In index.html, there is a canvas tag that we will draw the game in.
-    // Grab the canvas out of the DOM.
+    // In index.html, there is a canvas tag that the game will be drawn in.
+    // Grab that canvas out of the DOM.
     var canvas = document.getElementById("space-invaders");
 
     // Get the drawing context.  This contains functions that let you draw to the canvas.
@@ -32,7 +32,7 @@
 
     var self = this;
 
-    // Main game tick function.  Loops forever and runs 60ish times a second.
+    // Main game tick function.  Loops forever, running 60ish times a second.
     var tick = function() {
 
       // Update game state.
@@ -45,7 +45,8 @@
       requestAnimationFrame(tick);
     };
 
-    // Kick off the game tick.
+    // Run the first game tick.  All future calls will be scheduled by
+    // the tick() function itself.
     tick();
   };
 
