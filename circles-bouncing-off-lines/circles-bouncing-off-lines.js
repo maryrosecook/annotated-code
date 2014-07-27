@@ -239,24 +239,41 @@
     // **pointOnLineClosestToCircle()** returns the point on `line`
     // closest to `circle`.
     pointOnLineClosestToCircle: function(circle, line) {
+
+      // Get the points at each end of `line`.
       var lineEndPoint1 = trig.lineEndPoints(line)[0];
       var lineEndPoint2 = trig.lineEndPoints(line)[1];
 
-      // vector representing line surface
+      // Create a vector that represents the line
       var lineUnitVector = trig.unitVector(
         trig.vectorBetween(lineEndPoint1, lineEndPoint2));
 
-      // project vector between line end and circle along line to get
-      // distance between end and point on line closest to circle
-      var projection = trig.dotProduct(trig.vectorBetween(lineEndPoint1, circle.center),
-                                       lineUnitVector);
+      // Pick a line end and create a vector that represents the
+      // imaginary line between the end and the circle.
+      var lineEndToCircleVector = trig.vectorBetween(lineEndPoint1, circle.center);
 
+      // Get a dot product of the vector between the line end and circle, and
+      // the line vector.  (See the `dotProduct()` function for a
+      // fuller explanation.)  This projects the line end and circle
+      // vector along the line vector.  Thus, it represents how far
+      // along the line to go from the end to get to the point on the
+      // line that is closest to the circle.
+      var projection = trig.dotProduct(lineEndToCircleVector, lineUnitVector);
+
+      // If `projection` is less than or equal to 0, the closest point
+      // is at or past `lineEndPoint1`.  So, return `lineEndPoint1`.
       if (projection <= 0) {
-        return lineEndPoint1; // off end of line - end is closest point
+        return lineEndPoint1;
+
+      // If `projection` is greater than or equal to the length of the
+      // line, the closest point is at or past `lineEndPoint2`.  So,
+      // return `lineEndPoint2`.
       } else if (projection >= line.len) {
-        return lineEndPoint2; // ditto
+        return lineEndPoint2;
+
+      // The projection indicates a point part way along the line.
+      // Return that point.
       } else {
-        // part way along line - return that point
         return {
           x: lineEndPoint1.x + lineUnitVector.x * projection,
           y: lineEndPoint1.y + lineUnitVector.y * projection
