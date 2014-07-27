@@ -1,5 +1,9 @@
 ;(function(exports) {
-  // creates lines and circles and starts the animation
+
+  // The top-level functions that run the simulation
+  // -----------------------------------------------
+
+  // **start()** creates the lines and circles and starts the simulation.
   function start() {
     var screen = document.getElementById('circles-bouncing-off-lines').getContext('2d');
 
@@ -33,9 +37,12 @@
 
     tick(); // start update/draw loop
   };
-  exports.start = start; // make start function available to HTML page
 
-  // rotates the lines, moves and bounces the circles
+  // Export start() so it can be run by index.html
+  exports.start = start;
+
+  // **update()** rotates the lines, moves and bounces the circles,
+  // and occasionally creates circles.
   function update(world) {
     for (var i = world.circles.length - 1; i >= 0; i--) {
       for (var j = 0; j < world.lines.length; j++) {
@@ -60,6 +67,7 @@
     }
   };
 
+  // **draw()** draws the all the circles and lines in the simulation.
   function draw(world, screen) {
     // fill screen with white
     screen.fillStyle = "white";
@@ -71,6 +79,7 @@
     }
   };
 
+  // **makeCircle()** creates a circle that has the passed `center`.
   function makeCircle(center) {
     return {
       center: center,
@@ -86,6 +95,7 @@
     };
   };
 
+  // **makeLine()** creates a line that has the passed `center`.
   function makeLine(center) {
     return {
       center: center,
@@ -108,6 +118,7 @@
     };
   };
 
+  // **isCircleInWorld()** returns true if `circle` is on screen.
   function isCircleInWorld(circle, worldDimensions) {
     return circle.center.x > -circle.radius &&
       circle.center.x < worldDimensions.x + circle.radius &&
@@ -115,17 +126,30 @@
       circle.center.y < worldDimensions.y + circle.radius;
   };
 
+  // The trigonometry functions
+  // --------------------------
+
   var trig = {
+
+    // **distance()** returns the distance between `point1` and `point2`
+    // as the crow flies.  Uses Pythagoras's theorem.
     distance: function(point1, point2) {
       var x = point1.x - point2.x;
       var y = point1.y - point2.y;
       return Math.sqrt(x * x + y * y);
     },
 
+    // **magnitude()** returns the magnitude of the passed vector.
+    // Sort of like the vector's speed.  A vector with a larger x or y
+    // will have a larger magnitude.
     magnitude: function(vector) {
       return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
     },
 
+    // **unitVector()** returns the unit vector for `vector`.
+    // A unit vector points in the same direction as the original,
+    // but has a magnitude of 1.  It's like a direction with a
+    // speed that is the same as all other unit vectors.
     unitVector: function(vector) {
       return {
         x: vector.x / trig.magnitude(vector),
@@ -133,10 +157,19 @@
       };
     },
 
+    // **dotProduct()** returns the dot product of `vector1` and
+    // `vector2`. A dot product represents the amount one vector goes
+    // in the direction of the other.  Imagine `vector2` runs along
+    // the ground and `vector1` represents a ball fired from a
+    // cannon. If `vector2` is multiplied by the dot product of the
+    // two vectors, it produces a vector that represents the amount
+    // of ground covered by the ball.
     dotProduct: function(vector1, vector2) {
       return vector1.x * vector2.x + vector1.y * vector2.y;
     },
 
+    // **vectorBetween()** returns the vector that runs between `startPoint`
+    // and `endPoint`.
     vectorBetween: function(startPoint, endPoint) {
       return {
         x: endPoint.x - startPoint.x,
@@ -144,7 +177,8 @@
       };
     },
 
-    // returns the points at the two ends of the passed line
+    // **lineEndPoints()** returns an array containing the points
+    // at each end of `line`.
     lineEndPoints: function(line) {
       var angleRadians = line.angle * 0.01745;
       var lineUnitVector = trig.unitVector({
@@ -161,7 +195,8 @@
       }];
     },
 
-    // returns point on passed line closest to passed circle
+    // **pointOnLineClosestToCircle()** returns the point on `line`
+    // closest to `circle`.
     pointOnLineClosestToCircle: function(circle, line) {
       var lineEndPoint1 = trig.lineEndPoints(line)[0];
       var lineEndPoint2 = trig.lineEndPoints(line)[1];
@@ -188,6 +223,8 @@
       }
     },
 
+    // **isLineIntersectingCircle()** returns true if `line` is
+    // intersecting `circle`.
     isLineIntersectingCircle: function(circle, line) {
       var closest = trig.pointOnLineClosestToCircle(circle, line);
       var circleToLineDistance = trig.distance(circle.center, closest);
@@ -196,7 +233,9 @@
   }
 
   var physics = {
-    // move passed circle based on its current speed
+
+    // **moveCircle()** applies gravity to the velocity of `circle`.
+    // It also adds the velocity of the circle to its `center`.
     moveCircle: function(circle) {
       // simulate gravity
       circle.velocity.y += 0.06;
@@ -206,7 +245,8 @@
       circle.center.y += circle.velocity.y;
     },
 
-    // bounces circle off line
+    // **bounceCircle()** determines if `line` is intersecting
+    // `circle`.  If it is, it bounces `circle`.  If not, it does nothing.
     bounceCircle: function(circle, line) {
       if (!trig.isLineIntersectingCircle(circle, line)) {
         return; // line not touching circle - no bounce
@@ -226,7 +266,9 @@
       }
     },
 
-    // if line intersecting circle, returns normal to use to bounce circle
+    // **bounceLineNormal()** assumes `line` intersects `circle`.  It
+    // returns the normal to the side of the line that the `circle` is
+    // hitting.
     bounceLineNormal: function(circle, line) {
       return trig.unitVector(trig.vectorBetween(
         trig.pointOnLineClosestToCircle(circle, line),
@@ -237,6 +279,6 @@
   // Start
   // -----
 
-  // When the DOM is ready, create (and start) the animation.
+  // When the DOM is ready, create (and start) the simulation.
   window.addEventListener('load', start);
 })(this);
