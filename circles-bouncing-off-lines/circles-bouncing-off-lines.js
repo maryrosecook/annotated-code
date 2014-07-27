@@ -188,7 +188,7 @@
       }
     },
 
-    isCircleIntersectingLine: function(circle, line) {
+    isLineIntersectingCircle: function(circle, line) {
       var closest = trig.pointOnLineClosestToCircle(circle, line);
       var circleToLineDistance = trig.distance(circle.center, closest);
       return circleToLineDistance < circle.radius;
@@ -218,14 +218,14 @@
       circle.velocity.y -= 2 * dot * lineNormal.y;
 
       // move circle until outside line
-      while (trig.isCircleIntersectingLine(circle, line)) {
+      while (trig.isLineIntersectingCircle(circle, line)) {
         physics.moveCircle(circle);
       }
     },
 
     // if line intersecting circle, returns normal to use to bounce circle
     bounceNormal: function(circle, line) {
-      if (trig.isCircleIntersectingLine(circle, line)) {
+      if (trig.isLineIntersectingCircle(circle, line)) {
         return trig.unitVector(trig.vectorBetween(
           trig.pointOnLineClosestToCircle(circle, line),
           circle.center));
