@@ -208,8 +208,11 @@
 
     // bounces circle off line
     bounceCircle: function(circle, line) {
+      if (!trig.isLineIntersectingCircle(circle, line)) {
+        return; // line not touching circle - no bounce
+      }
+
       var bounceLineNormal = physics.bounceLineNormal(circle, line);
-      if (bounceLineNormal === undefined) return; // line not touching circle - no bounce
 
       // set new circle velocity by reflecting old velocity in
       // the normal to the surface the circle is bouncing off
