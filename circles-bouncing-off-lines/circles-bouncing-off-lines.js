@@ -150,7 +150,7 @@
       circle.center.y < worldDimensions.y + circle.radius;
   };
 
-  // Trigonometry functions to help with calculating ball movement
+  // Trigonometry functions to help with calculating circle movement
   // -------------------------------------------------------------
 
   var trig = {
@@ -290,7 +290,7 @@
     }
   }
 
-  // Physics functions for calculating ball movement
+  // Physics functions for calculating circle movement
   // -----------------------------------------------
 
   var physics = {
