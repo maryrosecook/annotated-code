@@ -1,40 +1,42 @@
 body {
-  font-family:courier;
-  font-size:13px;
+  font-family: "garamond-premier-pro";
+  font-size: 1.25em;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern";
+  -webkit-font-feature-settings: "kern";
+  -moz-font-feature-settings: "kern";
+  -moz-font-feature-settings: "kern=1";
+
   width: 680px;
   margin-left:auto;
   margin-right:auto;
-  text-align: justify;
+  padding: 0 10px 0 10px;
+  color: #333;
 }
 
 a {
-  color: black;
-  text-decoration: none;
+  color: #444;
 }
 
 a:hover {
-  border-bottom:none;
-}
-
-p a {
-  border-bottom:1px solid black;
-  text-decoration:none;
+  text-decoration: none;
 }
 
 h1 {
-  font-size: 46px;
-  line-height:46px;
+  font-size: 2.2em;
+  line-height: 1em;
   font-weight:normal;
   margin-left:auto;
   margin-right:auto;
   text-align:center;
-  margin-top:5px;
-  margin-bottom:0px;
+  margin-top:15px;
+  margin-bottom:0;
+  padding-bottom: 0;
   padding: 0;
 }
 
 h2 {
-  font-size: 16px;
+  font-size: 1.0em;
   font-weight:normal;
   text-align: center;
   margin-left:auto;
@@ -44,16 +46,16 @@ h2 {
   padding: 0;
 }
 
+.header a {
+  text-decoration:none;
+}
+
 h2 a {
   text-decoration:none;
 }
 
-h2 a:hover {
-  border-bottom: 1px solid black;
-}
-
 p {
-  margin:0;
+  margin:0 0 12px 0;
 }
 
 .strapline {
@@ -75,21 +77,16 @@ p {
   text-align:center;
   padding-top: 8px;
   border-top:1px solid black;
-  height: 20px;
-}
-
-.footer a:hover {
-  border-bottom:1px solid black;
+  height: 25px;
 }
 
 .grid {
-  height: 380px;
   margin-left:auto;
   margin-right:auto;
 }
 
 .grid-element {
-  height: 340px;
+  height: 360px;
   width: 300px;
   margin: 20px;
   float:left;
