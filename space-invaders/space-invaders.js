@@ -62,9 +62,14 @@
         return self.bodies.filter(function(b2) { return colliding(b1, b2); }).length === 0;
       };
 
-      // Throw away bodies that are colliding with something. They
-      // will never be updated or draw again.
+      // `onScreen` returns true if the passed body is still on screen.
+      // Simplified to watch the y-axis only.
+      var onScreen = function(b) { return !( b.center.y > self.gameSize.y || b.center.y < 0); };
+
+      // Throw away bodies that are colliding with something or left the game-area. They
+      // will never be updated or drawn again.
       this.bodies = this.bodies.filter(notCollidingWithAnything);
+      this.bodies = this.bodies.filter(onScreen);
 
       // Call update on every body.
       for (var i = 0; i < this.bodies.length; i++) {
