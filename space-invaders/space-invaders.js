@@ -15,7 +15,7 @@
 
     // Note down the dimensions of the canvas.  These are used to
     // place game bodies.
-    var gameSize = { x: canvas.width, y: canvas.height };
+    this.gameSize = { x: canvas.width, y: canvas.height };
 
     // Create the bodies array to hold the player, invaders and bullets.
     this.bodies = [];
@@ -24,7 +24,7 @@
     this.bodies = this.bodies.concat(createInvaders(this));
 
     // Add the player to the bodies array.
-    this.bodies = this.bodies.concat(new Player(this, gameSize));
+    this.bodies = this.bodies.concat(new Player(this, this.gameSize));
 
     // In index.html, there is an audio tag that loads the shooting sound.
     // Get the shoot sound from the DOM and store it on the game object.
@@ -39,7 +39,7 @@
       self.update();
 
       // Draw game bodies.
-      self.draw(screen, gameSize);
+      self.draw(screen, this.gameSize);
 
       // Queue up the next call to tick with the browser.
       requestAnimationFrame(tick);
@@ -75,7 +75,7 @@
     // **draw()** draws the game.
     draw: function(screen, gameSize) {
       // Clear away the drawing from the previous tick.
-      screen.clearRect(0, 0, gameSize.x, gameSize.y);
+      screen.clearRect(0, 0, this.gameSize.x, this.gameSize.y);
 
       // Draw each body as a rectangle.
       for (var i = 0; i < this.bodies.length; i++) {
