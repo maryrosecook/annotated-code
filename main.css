@@ -1,6 +1,6 @@
 body {
-  font-family: "garamond-premier-pro";
-  font-size: 1.25em;
+  font-family: "Gill Sans W01 Light";
+  font-size: 18px;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern";
   -webkit-font-feature-settings: "kern";
@@ -23,7 +23,7 @@ a:hover {
 }
 
 h1 {
-  font-size: 2.2em;
+  font-size: 36px;
   line-height: 1em;
   font-weight:normal;
   margin-left:auto;
@@ -36,7 +36,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.0em;
+  font-size: 18px;
   font-weight:normal;
   text-align: center;
   margin-left:auto;
