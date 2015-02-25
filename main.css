@@ -1,6 +1,7 @@
 body {
   font-family: "Gill Sans W01 Light";
   font-size: 18px;
+  line-height: 1.26em;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern";
   -webkit-font-feature-settings: "kern";
