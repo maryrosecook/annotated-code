@@ -90,18 +90,20 @@ p {
   height: 360px;
   width: 300px;
   margin: 20px;
-  float:left;
 }
 
 .grid-element.project {
   margin-left: auto;
   margin-right: auto;
-  float: center;
 }
 
 a:hover .grid-element.main {
   border: 1px black solid;
   margin: 19px; /* to compensote for push down of border */
+}
+
+.grid-element.main {
+  float: left;
 }
 
 .project-links {
